@@ -61,3 +61,30 @@ r = S - q \gamma \sigma_p^2 T
 The raw bid and ask are \(r-\delta\) and \(r+\delta\). The bid rounds down and
 the ask rounds up to avoid silently tightening the calculated spread. At the
 inventory limit, the side that would add exposure is disabled.
+
+## Julia Monte Carlo risk engine
+
+The Julia package simulates correlated Gaussian yield and credit-spread changes
+over a configurable horizon. If \(z_1\) and \(z_2\) are independent standard
+normal variables, the shocks are:
+
+\[
+\Delta y = \sigma_y \sqrt{T} z_1
+\]
+
+\[
+\Delta s = \sigma_s \sqrt{T}
+(\rho z_1 + \sqrt{1-\rho^2}z_2)
+\]
+
+For price \(P\), signed quantity \(Q\), modified duration \(D_y\), spread
+duration \(D_s\) and convexity \(C\), simulated P&L is:
+
+\[
+\text{P\&L} = PQ
+\left(-D_y\Delta y-D_s\Delta s+\frac{1}{2}C(\Delta y)^2\right)
+\]
+
+Value at Risk is reported as a positive loss quantile. Expected Shortfall is the
+mean loss at or beyond that quantile. A fixed random seed makes each simulation
+reproducible.

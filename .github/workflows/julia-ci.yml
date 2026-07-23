@@ -1,0 +1,26 @@
+name: Julia CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        julia-version: ["1.10", "1"]
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.julia-version }}
+      - name: Test Julia package
+        run: >-
+          julia --project=julia/FixedIncomeQuant
+          -e 'using Pkg; Pkg.instantiate(); Pkg.test()'

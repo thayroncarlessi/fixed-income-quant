@@ -52,6 +52,49 @@ quote = quote_bond(
 print(quote.bid, quote.ask, quote.reservation_price)
 ```
 
+## Julia Monte Carlo risk engine
+
+The repository also includes a native Julia package for high-volume,
+duration-and-credit risk simulations. It generates reproducible correlated yield
+and spread shocks, applies a duration-convexity price approximation, and reports
+loss-positive Value at Risk and Expected Shortfall.
+
+```julia
+using FixedIncomeQuant
+
+model = BondRiskModel(
+    modified_duration = 4.2,
+    yield_volatility = 0.01,
+    spread_duration = 3.8,
+    credit_spread_volatility = 0.0075,
+    rates_credit_correlation = 0.20,
+    convexity = 24.0,
+)
+config = MonteCarloConfig(
+    scenarios = 100_000,
+    horizon_years = 10 / 252,
+    confidence_level = 0.99,
+    seed = 2026,
+)
+pnl = simulate_bond_pnl(
+    price = 99.75,
+    quantity = 1_000,
+    model = model,
+    config = config,
+)
+report = risk_report(pnl, config)
+println(report.value_at_risk, report.expected_shortfall)
+```
+
+Run the Julia tests and the one-million-scenario benchmark:
+
+```bash
+julia --project=julia/FixedIncomeQuant \
+  -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+julia --project=julia/FixedIncomeQuant \
+  julia/FixedIncomeQuant/benchmarks/monte_carlo.jl
+```
+
 ## Principles
 
 - Explicit units and annualization.

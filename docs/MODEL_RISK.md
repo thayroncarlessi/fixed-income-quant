@@ -24,6 +24,18 @@ does not claim that the displayed quotes are executable.
 - The hard inventory limit disables one quote side but is not a complete risk
   management system.
 
+## Monte Carlo risk engine
+
+- Yield and spread shocks are Gaussian, with constant volatility and
+  correlation over the selected horizon.
+- The duration-convexity approximation is local and can become inaccurate under
+  large shocks, embedded options or discontinuous credit events.
+- Expected Shortfall is estimated from a finite simulated tail and therefore
+  has sampling error.
+- The random seed supports reproducibility, not predictive certainty.
+- Reported VaR and Expected Shortfall exclude liquidity, transaction costs,
+  default recovery uncertainty and model calibration error.
+
 Before production use, calibrate with instrument-level data, backtest out of
 sample, stress nonlinear and default scenarios, and add independent market,
 credit, liquidity and operational controls.
