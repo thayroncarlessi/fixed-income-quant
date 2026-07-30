@@ -88,3 +88,29 @@ duration \(D_s\) and convexity \(C\), simulated P&L is:
 Value at Risk is reported as a positive loss quantile. Expected Shortfall is the
 mean loss at or beyond that quantile. A fixed random seed makes each simulation
 reproducible.
+
+## Python parametric bond risk
+
+The analytical Python implementation uses the same annual proportional price
+variance as the quote engine. For horizon \(T\), its proportional volatility is:
+
+\[
+\sigma_T = \sqrt{\sigma_r^2 T}
+\]
+
+For absolute market value \(V = |P Q|\), P&L volatility is
+\(\sigma_{P\&L} = V \sigma_T\). Under a zero-mean Gaussian loss model and
+confidence level \(c\):
+
+\[
+\text{VaR}_c = \Phi^{-1}(c)\sigma_{P\&L}
+\]
+
+\[
+\text{ES}_c =
+\frac{\phi(\Phi^{-1}(c))}{1-c}\sigma_{P\&L}
+\]
+
+Both measures are reported as positive losses. The result also exposes the
+rates variance, credit variance and covariance terms, whose sum equals the
+annual proportional price variance.

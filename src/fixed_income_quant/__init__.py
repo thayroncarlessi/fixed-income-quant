@@ -10,13 +10,19 @@ from .performance import (
     InformationRatioResult,
     information_ratio,
 )
+from .risk import (
+    ParametricBondRisk,
+    parametric_bond_risk,
+)
 
 __all__ = [
     "BondQuote",
     "BondRiskModel",
     "InformationRatioResult",
+    "ParametricBondRisk",
     "QuoteParameters",
     "information_ratio",
+    "parametric_bond_risk",
     "quote_bond",
 ]
 
