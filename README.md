@@ -1,5 +1,7 @@
 # fixed-income-quant
 
+[**Português**](README.pt-BR.md) | English
+
 [![CI](https://github.com/thayroncarlessi/fixed-income-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/thayroncarlessi/fixed-income-quant/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
@@ -86,6 +88,30 @@ report = risk_report(pnl, config)
 println(report.value_at_risk, report.expected_shortfall)
 ```
 
+## Parametric bond risk in Python
+
+For fast analytical risk, the Python package reports Gaussian VaR and Expected
+Shortfall together with the rates, credit and covariance components:
+
+```python
+from fixed_income_quant import BondRiskModel, parametric_bond_risk
+
+risk = parametric_bond_risk(
+    price=99.75,
+    quantity=1_000,
+    risk_model=BondRiskModel(
+        modified_duration=4.2,
+        yield_volatility=0.01,
+        spread_duration=3.8,
+        credit_spread_volatility=0.0075,
+        rates_credit_correlation=0.20,
+    ),
+    horizon_years=10 / 252,
+    confidence_level=0.99,
+)
+print(risk.value_at_risk, risk.expected_shortfall)
+```
+
 Run the Julia tests and the one-million-scenario benchmark:
 
 ```bash
@@ -113,7 +139,8 @@ pytest
 ruff check .
 ```
 
-Read [Methodology](docs/METHODOLOGY.md) and [Model risk](docs/MODEL_RISK.md).
+Read [Methodology](docs/METHODOLOGY.md), [Model risk](docs/MODEL_RISK.md) and
+the [Portuguese roadmap](docs/ROADMAP.pt-BR.md).
 
 [finmath-br](https://github.com/thayroncarlessi/finmath-br) remains the
 deterministic Brazilian financial-math foundation; this repository adds

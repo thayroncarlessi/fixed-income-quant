@@ -36,6 +36,16 @@ does not claim that the displayed quotes are executable.
 - Reported VaR and Expected Shortfall exclude liquidity, transaction costs,
   default recovery uncertainty and model calibration error.
 
+## Parametric risk engine
+
+- Losses are assumed Gaussian and centered at zero.
+- Duration and spread duration are linear local approximations.
+- Convexity, jumps and default losses are excluded.
+- Volatility and correlation are constant over the selected horizon.
+- VaR is not a maximum loss and Expected Shortfall depends on the model tail.
+- The result should be backtested and complemented by historical and
+  hypothetical stress scenarios.
+
 Before production use, calibrate with instrument-level data, backtest out of
 sample, stress nonlinear and default scenarios, and add independent market,
 credit, liquidity and operational controls.
